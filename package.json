@@ -26,6 +26,7 @@
     "fork-ts-checker-webpack-plugin": "^0.4.0",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.7",
+    "style-loader": "^0.20.2",
     "ts-loader": "^4.0.1",
     "typescript": "^2.7.2",
     "webpack": "^4.0.1",

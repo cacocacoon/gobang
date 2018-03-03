@@ -1,6 +1,13 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-const Hello = (): JSX.Element => <div>Golang</div>
+import './app.scss'
+import Board from './views/board/board'
 
-ReactDOM.render(<Hello />, document.getElementById('app'))
+const App: React.SFC = () => (
+	<React.Fragment>
+		<Board />
+	</React.Fragment>
+)
+
+ReactDOM.render(<App />, document.getElementById('app'))

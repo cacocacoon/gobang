@@ -2,8 +2,6 @@ const webpack = require('webpack')
 const path = require('path')
 const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
-// 以多執行緒的方式編譯程式碼，加快編譯速度
-const HappyPack = require('happypack')
 
 const BUILD_DIR = path.resolve(__dirname, 'build')
 
