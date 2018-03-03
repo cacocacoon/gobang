@@ -1,0 +1,42 @@
+{
+  "name": "gobang",
+  "version": "1.0.0",
+  "description": "1. Typescript 2. SCSS 3. Webpack 4. React",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --mode development --config webpack.dev.js",
+    "build": "webpack -p --mode production --progress --colors --config webpack.prod.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cacocacoon/gobang.git"
+  },
+  "keywords": [
+    "gobang"
+  ],
+  "author": "Luke Liu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cacocacoon/gobang/issues"
+  },
+  "homepage": "https://github.com/cacocacoon/gobang#readme",
+  "devDependencies": {
+    "css-loader": "^0.28.10",
+    "fork-ts-checker-webpack-plugin": "^0.4.0",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.7",
+    "ts-loader": "^4.0.1",
+    "typescript": "^2.7.2",
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.10",
+    "webpack-dev-server": "^3.1.0",
+    "webpack-merge": "^4.1.2"
+  },
+  "dependencies": {
+    "@types/react": "^16.0.40",
+    "@types/react-dom": "^16.0.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}
