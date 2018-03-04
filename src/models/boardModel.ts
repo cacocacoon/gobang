@@ -10,7 +10,11 @@ export default class BoardData {
 			Array(COORDINATE.Y).fill(List(Array(COORDINATE.X).fill(Chess.None)))
 		)
 	}
-	
+
+	movePiece(x: number, y: number, chess: Chess) {
+		this.board = this.board.setIn([y, x], chess)
+	}
+
 	toJS(): Chess[][] {
 		return this.board.toJS()
 	}

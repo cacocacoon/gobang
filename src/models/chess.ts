@@ -1,7 +1,7 @@
 enum Chess {
-	None,
-	White,
-	Black
+	None = 'NONE',
+	White = 'WHITE',
+	Black = 'BLACK'
 }
 
 export default Chess
