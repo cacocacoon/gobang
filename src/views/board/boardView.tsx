@@ -10,6 +10,7 @@ const BLOCK_LENGTH = Config.BLOCK_LENGTH
 const BOARD_LENGTH = (COORDINATE.Y - 1) * BLOCK_LENGTH
 type Props = {
 	boardData: Chess[][]
+	gaming: boolean
 	controller: BoardController
 }
 type State = any
@@ -18,7 +19,7 @@ export default class BoardView extends React.Component<Props, State> {
 	boardRef?: HTMLCanvasElement
 
 	componentDidUpdate() {
-		console.log(this.props.boardData)
+		// console.log(this.props.boardData)
 	}
 	// 畫水平線
 	drawY(ctx: CanvasRenderingContext2D) {
@@ -51,7 +52,7 @@ export default class BoardView extends React.Component<Props, State> {
 		const offsetX = e.nativeEvent.offsetX
 		const offsetY = e.nativeEvent.offsetY
 		const { x, y } = this.getCoordinate(offsetX, offsetY)
-		console.log(x, y)
+
 		if (this.props.controller.canMovePiece(x, y)) {
 			this.drawChessTo(x, y, this.props.controller.whosTurn())
 			this.props.controller.movePiece(x, y)
@@ -111,7 +112,7 @@ export default class BoardView extends React.Component<Props, State> {
 				height={BOARD_LENGTH + 2 * BLOCK_LENGTH}
 				width={BOARD_LENGTH + 2 * BLOCK_LENGTH}
 				ref={blackRef => (this.boardRef = blackRef)}
-				onClick={this.movePiece}
+				onClick={this.props.gaming ? this.movePiece : null}
 			/>
 		)
 	}

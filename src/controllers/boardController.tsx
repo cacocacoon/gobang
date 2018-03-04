@@ -1,12 +1,14 @@
 import * as React from 'react'
 import BoardModel from '../models/boardModel'
 import Chess from '../models/chess'
+import Config from '../config'
 
 type Props = {
 	children: any
 }
 type State = {
-	boardData: Chess[][],
+	boardData: Chess[][]
+	gaming: boolean
 	turn: boolean
 }
 
@@ -15,6 +17,7 @@ export default class BoardController extends React.Component<Props, State> {
 
 	state: State = {
 		boardData: this.model.toJS(),
+		gaming: true,
 		turn: true
 	}
 
@@ -29,10 +32,81 @@ export default class BoardController extends React.Component<Props, State> {
 	public movePiece = (x: number, y: number) => {
 		const chess: Chess = this.whosTurn()
 		this.model.movePiece(x, y, chess)
-		this.setState(state => ({ boardData: this.model.toJS(), turn: !state.turn }))
+		this.setState({ boardData: this.model.toJS() }, () =>
+			this.checkWin(x, y, chess)
+		)
+	}
+
+	private checkWin(x: number, y: number, chess: Chess) {
+		// 以下棋點的八方來計算，相對方向加起來分數 >= 5 獲勝
+		const directions: [number, number][][] = [
+			//水平
+			[[-1, 0], [1, 0]],
+			// 垂直
+			[[0, -1], [0, 1]],
+			// 左斜
+			[[-1, -1], [1, 1]],
+			// 右斜
+			[[1, -1], [-1, 1]]
+		]
+		const position: { x: number; y: number } = { x, y }
+		let maxScore = 1
+		directions.forEach(d => {
+			const score =
+				1 +
+				this.getDirScore(d[0], chess, position) +
+				this.getDirScore(d[1], chess, position)
+			maxScore = Math.max(maxScore, score)
+		})
+		const win = maxScore >= 5
+
+		if (win) {
+			this.setState({ gaming: false }, () =>
+				console.log(chess, 'WIN!!!!')
+			)
+		} else {
+			this.setState(state => ({ turn: !state.turn }))
+		}
+	}
+
+	private getDirScore(
+		dir: [number, number],
+		chess: Chess,
+		position: { x: number; y: number }
+	): number {
+		const boardData = this.state.boardData
+		let score = 0
+		let moveAStep = { x: position.x, y: position.y }
+		while (true) {
+			//移動一格
+			moveAStep = { x: moveAStep.x + dir[0], y: moveAStep.y + dir[1] }
+			// 假如在牆外或是棋子不同
+			if (
+				this.outsideOfBoard(moveAStep) ||
+				boardData[moveAStep.y][moveAStep.x] !== chess
+			) {
+				break
+			}
+			score++
+		}
+		return score
+	}
+
+	private outsideOfBoard(position: { x: number; y: number }): boolean {
+		const { COORDINATE } = Config
+		return (
+			position.x < 0 ||
+			position.y < 0 ||
+			position.x >= COORDINATE.X ||
+			position.y >= COORDINATE.Y
+		)
 	}
 
 	render() {
-		return this.props.children(this.state.boardData, this)
+		return this.props.children(
+			this.state.boardData,
+			this.state.gaming,
+			this
+		)
 	}
 }

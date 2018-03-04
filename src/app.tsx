@@ -7,8 +7,12 @@ import BoardView from './views/board/boardView'
 
 const App: React.SFC = () => (
 	<BoardController>
-		{(boardData, controller) => (
-			<BoardView boardData={boardData} controller={controller} />
+		{(boardData, gaming, controller) => (
+			<BoardView
+				boardData={boardData}
+				gaming={gaming}
+				controller={controller}
+			/>
 		)}
 	</BoardController>
 )
