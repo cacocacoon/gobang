@@ -2,12 +2,13 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
 import './app.scss'
-import Board from './views/board/board'
+import BoardController from './controllers/boardController'
+import BoardView from './views/board/boardView'
 
 const App: React.SFC = () => (
-	<React.Fragment>
-		<Board />
-	</React.Fragment>
+	<BoardController>
+		{boardData => <BoardView boardData={boardData} />}
+	</BoardController>
 )
 
 ReactDOM.render(<App />, document.getElementById('app'))

@@ -37,6 +37,7 @@
   "dependencies": {
     "@types/react": "^16.0.40",
     "@types/react-dom": "^16.0.4",
+    "immutable": "^3.8.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   }
