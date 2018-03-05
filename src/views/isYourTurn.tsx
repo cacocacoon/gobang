@@ -2,9 +2,7 @@ import * as React from 'react'
 import Chess from '../models/chess'
 
 type Props = {
-    who: Chess
+	who: Chess
 }
 
-export default (props: Props) => (
-    <h3>Is Your Turn: {props.who}</h3>
-)
+export default (props: Props) => <h3>Is Your Turn: {props.who}</h3>

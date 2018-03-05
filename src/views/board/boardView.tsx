@@ -46,7 +46,7 @@ export default class BoardView extends React.Component<Props, State> {
 		ctx.stroke()
 	}
 
-	private movePiece = e => {
+	private movePiece = (e: React.MouseEvent<HTMLCanvasElement>) => {
 		const offsetX = e.nativeEvent.offsetX
 		const offsetY = e.nativeEvent.offsetY
 		const { x, y } = this.getCoordinate(offsetX, offsetY)
@@ -123,10 +123,7 @@ export default class BoardView extends React.Component<Props, State> {
 
 	componentDidMount() {
 		this.drawBoard()
-		Emitter.on('repentance', () => {
-			this.repentance()
-		})
-
+		Emitter.on('repentance', this.repentance)
 	}
 
 	componentWillUnmount() {
