@@ -10,19 +10,7 @@ const config = {
 		contentBase: BUILD_DIR,
 		inline: true,
 		port: 8080
-	},
-	plugins: [
-		// new HappyPack({
-		// 	id: 'tsx',
-		// 	threads: 4,
-		// 	loaders: [
-		// 		{
-		// 			loader: 'ts-loader',
-		// 			options: { happyPackMode: true }
-		// 		}
-		// 	]
-		// })
-	]
+	}
 }
 
 module.exports = merge(common, config)

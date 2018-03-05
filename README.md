@@ -9,3 +9,4 @@
 ##架構與設計模式
 1. MVC
 2. Render Children
+3. Emitter (Pub/Sub)

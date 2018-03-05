@@ -27,7 +27,6 @@ const config = {
 		]
 	},
 	plugins: [
-		// 可加快編譯速度
 		new ForkTsCheckerWebpackPlugin()
 	],
 	resolve: {

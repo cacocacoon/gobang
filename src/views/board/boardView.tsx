@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import Emitter from '../../utils/eventEmitter'
 import Config from '../../config'
 import Chess from '../../models/chess'
 import BoardController from '../../controllers/boardController'
@@ -16,13 +17,10 @@ type Props = {
 type State = any
 
 export default class BoardView extends React.Component<Props, State> {
-	boardRef?: HTMLCanvasElement
+	private boardRef: HTMLCanvasElement
 
-	componentDidUpdate() {
-		// console.log(this.props.boardData)
-	}
 	// 畫水平線
-	drawY(ctx: CanvasRenderingContext2D) {
+	private drawY(ctx: CanvasRenderingContext2D) {
 		Array(COORDINATE.Y)
 			.fill(1)
 			.forEach((v, i) => {
@@ -31,7 +29,7 @@ export default class BoardView extends React.Component<Props, State> {
 			})
 	}
 	// 畫垂直線
-	drawX(ctx: CanvasRenderingContext2D) {
+	private drawX(ctx: CanvasRenderingContext2D) {
 		Array(COORDINATE.X)
 			.fill(1)
 			.forEach((v, i) => {
@@ -40,7 +38,7 @@ export default class BoardView extends React.Component<Props, State> {
 			})
 	}
 
-	drawBoard() {
+	private drawBoard() {
 		// 畫棋盤
 		const ctx = this.boardRef.getContext('2d')
 		this.drawX(ctx)
@@ -48,7 +46,7 @@ export default class BoardView extends React.Component<Props, State> {
 		ctx.stroke()
 	}
 
-	movePiece = e => {
+	private movePiece = e => {
 		const offsetX = e.nativeEvent.offsetX
 		const offsetY = e.nativeEvent.offsetY
 		const { x, y } = this.getCoordinate(offsetX, offsetY)
@@ -59,7 +57,10 @@ export default class BoardView extends React.Component<Props, State> {
 		}
 	}
 
-	drawChessTo(x: number, y: number, who: Chess) {
+	private drawChessTo(x: number, y: number, who: Chess) {
+		if (who === Chess.None) {
+			return
+		}
 		const ctx = this.boardRef.getContext('2d')
 		ctx.beginPath()
 		ctx.arc(
@@ -84,9 +85,12 @@ export default class BoardView extends React.Component<Props, State> {
 		ctx.stroke()
 	}
 
-	getCoordinate(offsetX: number, offsetY: number) {
+	private getCoordinate(offsetX: number, offsetY: number) {
 		offsetX = offsetX - BLOCK_LENGTH
 		offsetY = offsetY - BLOCK_LENGTH
+
+		offsetX = offsetX >= 0 ? offsetX : 0
+		offsetY = offsetY >= 0 ? offsetY : 0
 
 		const x =
 			Math.floor(offsetX / BLOCK_LENGTH) +
@@ -95,15 +99,38 @@ export default class BoardView extends React.Component<Props, State> {
 			Math.floor(offsetY / BLOCK_LENGTH) +
 			((offsetY % BLOCK_LENGTH) / BLOCK_LENGTH > 0.5 ? 1 : 0)
 
-		return {
-			x: x >= 0 ? x : 0,
-			y: y >= 0 ? y : 0
+		return { x, y }
+	}
+
+	private async repentance() {
+		if (!this.props.controller.notYetMove()) {
+			await this.props.controller.repentance()
+			this.reDraw()
 		}
+	}
+
+	private reDraw() {
+		const ctx = this.boardRef.getContext('2d')
+		ctx.clearRect(0, 0, this.boardRef.width, this.boardRef.height)
+		ctx.beginPath()
+		this.drawBoard()
+		this.props.boardData.forEach((row, y) => {
+			row.forEach((chess, x) => {
+				this.drawChessTo(x, y, chess)
+			})
+		})
 	}
 
 	componentDidMount() {
 		this.drawBoard()
-		// this.forceUpdate()
+		Emitter.on('repentance', () => {
+			this.repentance()
+		})
+
+	}
+
+	componentWillUnmount() {
+		Emitter.off('repentance')
 	}
 
 	render() {
@@ -111,7 +138,7 @@ export default class BoardView extends React.Component<Props, State> {
 			<canvas
 				height={BOARD_LENGTH + 2 * BLOCK_LENGTH}
 				width={BOARD_LENGTH + 2 * BLOCK_LENGTH}
-				ref={blackRef => (this.boardRef = blackRef)}
+				ref={boardRef => (this.boardRef = boardRef)}
 				onClick={this.props.gaming ? this.movePiece : null}
 			/>
 		)

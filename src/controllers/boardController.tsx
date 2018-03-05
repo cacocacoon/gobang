@@ -25,8 +25,21 @@ export default class BoardController extends React.Component<Props, State> {
 		return this.state.boardData[y][x] === Chess.None
 	}
 
+	public notYetMove(): boolean {
+		return this.model.notYetMove()
+	}
+
 	public whosTurn = (): Chess => {
 		return this.state.turn ? Chess.Black : Chess.White
+	}
+
+	public repentance = async () => {
+		this.model.repentance()
+		await this.setState(state => ({
+			boardData: this.model.toJS(),
+			turn: !state.turn,
+			gaming: true
+		}))
 	}
 
 	public movePiece = (x: number, y: number) => {
@@ -61,8 +74,9 @@ export default class BoardController extends React.Component<Props, State> {
 		const win = maxScore >= 5
 
 		if (win) {
-			this.setState({ gaming: false }, () =>
-				console.log(chess, 'WIN!!!!')
+			this.setState(
+				state => ({ gaming: false, turn: !state.turn }),
+				() => console.log(chess, 'WIN!!!!')
 			)
 		} else {
 			this.setState(state => ({ turn: !state.turn }))
