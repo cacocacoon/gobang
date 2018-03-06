@@ -1,4 +1,5 @@
 import * as React from 'react'
+import 'core-js/fn/array/fill'
 
 import Emitter from '../../utils/eventEmitter'
 import Config from '../../config'
@@ -102,7 +103,7 @@ export default class BoardView extends React.Component<Props, State> {
 		return { x, y }
 	}
 
-	private async repentance() {
+	private repentance = async () => {
 		if (!this.props.controller.notYetMove()) {
 			await this.props.controller.repentance()
 			this.reDraw()

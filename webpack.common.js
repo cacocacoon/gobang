@@ -27,7 +27,8 @@ const config = {
 		]
 	},
 	plugins: [
-		new ForkTsCheckerWebpackPlugin()
+		new ForkTsCheckerWebpackPlugin(),
+		new webpack.ProvidePlugin({ Promise: 'core-js/fn/promise' }),
 	],
 	resolve: {
 		extensions: ['.js', '.jsx', '.ts', '.tsx']

@@ -8,10 +8,15 @@
         "strict": true,
         "strictNullChecks": false,
         "module": "commonjs",
-        "target": "es2015",
+        "target": "es5",
         "jsx": "react",
         "pretty": true,
-        "removeComments": true
+        "removeComments": true,
+        "locale": "zh-TW",
+        "lib": [
+            "es2015",
+            "dom"
+        ]
     },
     "include": [
         "./src/**/*"
