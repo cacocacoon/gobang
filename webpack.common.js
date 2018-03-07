@@ -3,7 +3,7 @@ const path = require('path')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 
 const APP_DIR = path.resolve(__dirname, 'src')
-const BUILD_DIR = path.resolve(__dirname, 'build')
+const BUILD_DIR = path.resolve(__dirname, 'docs')
 
 const config = {
 	entry: {

@@ -3,7 +3,7 @@ const path = require('path')
 const merge = require('webpack-merge')
 const common = require('./webpack.common.js')
 
-const BUILD_DIR = path.resolve(__dirname, 'build')
+const BUILD_DIR = path.resolve(__dirname, 'docs')
 
 const config = {
 	devServer: {
