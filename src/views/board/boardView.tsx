@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import 'core-js/fn/array/fill'
 
 import Emitter from '../../utils/eventEmitter'
@@ -128,7 +128,7 @@ export default class BoardView extends React.Component<Props, State> {
 	}
 
 	componentWillUnmount() {
-		Emitter.off('repentance')
+		Emitter.off('repentance', this.repentance)
 	}
 
 	render() {

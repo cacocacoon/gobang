@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import BoardModel from '../models/boardModel'
 import Chess from '../models/chess'
 import Config from '../config'
