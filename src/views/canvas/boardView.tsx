@@ -1,15 +1,13 @@
 import React from 'react'
-import 'core-js/fn/array/fill'
 
 import Emitter from '../../utils/eventEmitter'
 import Config from '../../config'
 import Chess from '../../models/chess'
 import BoardController from '../../controllers/boardController'
-import './board.scss'
 
 const COORDINATE = Config.COORDINATE
 const BLOCK_LENGTH = Config.BLOCK_LENGTH
-const BOARD_LENGTH = (COORDINATE.Y - 1) * BLOCK_LENGTH
+const BOARD_LENGTH = COORDINATE.Y * BLOCK_LENGTH
 type Props = {
 	boardData: Chess[][]
 	gaming: boolean
@@ -22,7 +20,7 @@ export default class BoardView extends React.Component<Props, State> {
 
 	// 畫水平線
 	private drawY(ctx: CanvasRenderingContext2D) {
-		Array(COORDINATE.Y)
+		Array(COORDINATE.Y + 1)
 			.fill(1)
 			.forEach((v, i) => {
 				ctx.moveTo(BLOCK_LENGTH, (i + 1) * BLOCK_LENGTH)
@@ -31,7 +29,7 @@ export default class BoardView extends React.Component<Props, State> {
 	}
 	// 畫垂直線
 	private drawX(ctx: CanvasRenderingContext2D) {
-		Array(COORDINATE.X)
+		Array(COORDINATE.X + 1)
 			.fill(1)
 			.forEach((v, i) => {
 				ctx.moveTo((i + 1) * BLOCK_LENGTH, BLOCK_LENGTH)
@@ -95,10 +93,10 @@ export default class BoardView extends React.Component<Props, State> {
 
 		const x =
 			Math.floor(offsetX / BLOCK_LENGTH) +
-			((offsetX % BLOCK_LENGTH) / BLOCK_LENGTH > 0.5 ? 1 : 0)
+			Math.round((offsetX % BLOCK_LENGTH) / BLOCK_LENGTH)
 		const y =
 			Math.floor(offsetY / BLOCK_LENGTH) +
-			((offsetY % BLOCK_LENGTH) / BLOCK_LENGTH > 0.5 ? 1 : 0)
+			Math.round((offsetY % BLOCK_LENGTH) / BLOCK_LENGTH)
 
 		return { x, y }
 	}

@@ -10,7 +10,7 @@ export default class BoardData {
 	constructor() {
 		const COORDINATE = Config.COORDINATE
 		this.board = List(
-			Array(COORDINATE.Y).fill(List(Array(COORDINATE.X).fill(Chess.None)))
+			Array(COORDINATE.Y + 1).fill(List(Array(COORDINATE.X + 1).fill(Chess.None)))
 		)
 		this.boardStack = Stack<Board>()
 	}

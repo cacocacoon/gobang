@@ -4,7 +4,11 @@ import Chess from '../models/chess'
 import Config from '../config'
 
 type Props = {
-	children: (boardData: Chess[][], gaming: boolean, controller: BoardController) => JSX.Element
+	children: (
+		boardData: Chess[][],
+		gaming: boolean,
+		controller: BoardController
+	) => JSX.Element
 }
 type State = {
 	boardData: Chess[][]
@@ -21,7 +25,7 @@ export default class BoardController extends React.Component<Props, State> {
 		turn: true
 	}
 
-	public canMovePiece(x: number, y: number): boolean {
+	public canMovePiece = (x: number, y: number): boolean => {
 		return this.state.boardData[y][x] === Chess.None
 	}
 
@@ -31,6 +35,10 @@ export default class BoardController extends React.Component<Props, State> {
 
 	public whosTurn = (): Chess => {
 		return this.state.turn ? Chess.Black : Chess.White
+	}
+
+	public whoWin = (): Chess => {
+		return this.state.turn ? Chess.White : Chess.Black
 	}
 
 	public repentance = async () => {
@@ -74,10 +82,7 @@ export default class BoardController extends React.Component<Props, State> {
 		const win = maxScore >= 5
 
 		if (win) {
-			this.setState(
-				state => ({ gaming: false, turn: !state.turn }),
-				() => console.log(chess, 'WIN!!!!')
-			)
+			this.setState(state => ({ gaming: false, turn: !state.turn }))
 		} else {
 			this.setState(state => ({ turn: !state.turn }))
 		}
