@@ -4,7 +4,7 @@ import Chess from '../models/chess'
 import Config from '../config'
 
 type Props = {
-	children: any
+	children: (boardData: Chess[][], gaming: boolean, controller: BoardController) => JSX.Element
 }
 type State = {
 	boardData: Chess[][]

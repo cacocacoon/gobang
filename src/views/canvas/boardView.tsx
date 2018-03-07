@@ -15,7 +15,7 @@ type Props = {
 	gaming: boolean
 	controller: BoardController
 }
-type State = any
+type State = {}
 
 export default class BoardView extends React.Component<Props, State> {
 	private boardRef: HTMLCanvasElement

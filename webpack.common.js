@@ -20,7 +20,7 @@ const config = {
 				use: ['style-loader', 'css-loader', 'sass-loader']
 			},
 			{
-				test: /\.tsx?$/,
+				test: /\.(j|t)sx?$/,
 				exclude: /node_modules/,
 				use: 'ts-loader'
 			}
