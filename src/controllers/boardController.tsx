@@ -116,8 +116,8 @@ export default class BoardController extends React.Component<Props, State> {
 		return (
 			position.x < 0 ||
 			position.y < 0 ||
-			position.x >= COORDINATE.X ||
-			position.y >= COORDINATE.Y
+			position.x > COORDINATE.X ||
+			position.y > COORDINATE.Y
 		)
 	}
 

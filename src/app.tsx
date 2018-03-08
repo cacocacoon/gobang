@@ -9,7 +9,7 @@ import ShowWinner from './views/showWinner'
 import CanvasBoardView from './views/canvas/boardView'
 import DOMBoardView from './views/dom/boardView'
 const App: React.SFC = () => (
-<BoardController>
+	<BoardController>
 		{(boardData, gaming, controller) => (
 			<>
 				<IsYourTurn who={controller.whosTurn()} />
