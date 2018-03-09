@@ -34,9 +34,7 @@ export default class BoardView extends React.Component<Props, State> {
 		const offsetY = e.nativeEvent.offsetY
 		const { x, y } = this.getCoordinate(offsetX, offsetY)
 
-		if (this.props.controller.canMovePiece(x, y)) {
-			this.props.controller.movePiece(x, y)
-		}
+		this.props.controller.movePiece(x, y)
 	}
 
 	private getChessPosition(
@@ -48,10 +46,8 @@ export default class BoardView extends React.Component<Props, State> {
 		return { top, left }
 	}
 
-	private repentance = async () => {
-		if (!this.props.controller.notYetMove()) {
-			await this.props.controller.repentance()
-		}
+	private repentance = () => {
+		this.props.controller.repentance()
 	}
 
 	componentDidMount() {

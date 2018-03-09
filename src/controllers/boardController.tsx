@@ -25,11 +25,11 @@ export default class BoardController extends React.Component<Props, State> {
 		turn: true
 	}
 
-	public canMovePiece = (x: number, y: number): boolean => {
+	private canMovePiece = (x: number, y: number): boolean => {
 		return this.state.boardData[y][x] === Chess.None
 	}
 
-	public notYetMove(): boolean {
+	private notYetMove(): boolean {
 		return this.model.notYetMove()
 	}
 
@@ -41,21 +41,26 @@ export default class BoardController extends React.Component<Props, State> {
 		return this.state.turn ? Chess.White : Chess.Black
 	}
 
-	public repentance = async () => {
-		this.model.repentance()
-		await this.setState(state => ({
-			boardData: this.model.toJS(),
-			turn: !state.turn,
-			gaming: true
-		}))
+	public repentance = (callback?: () => void) => {
+		if (!this.notYetMove()) {
+			this.model.repentance()
+			this.setState(state => ({
+				boardData: this.model.toJS(),
+				turn: !state.turn,
+				gaming: true
+			}), callback)
+		}
 	}
 
-	public movePiece = (x: number, y: number) => {
-		const chess: Chess = this.whosTurn()
-		this.model.movePiece(x, y, chess)
-		this.setState({ boardData: this.model.toJS() }, () =>
-			this.checkWin(x, y, chess)
-		)
+	public movePiece = (x: number, y: number, callback?: () => void) => {
+		if (this.canMovePiece(x, y)) {
+			const chess: Chess = this.whosTurn()
+			this.model.movePiece(x, y, chess)
+			this.setState({ boardData: this.model.toJS() }, () => {
+				callback && callback()
+				this.checkWin(x, y, chess)
+			})
+		}
 	}
 
 	private checkWin(x: number, y: number, chess: Chess) {

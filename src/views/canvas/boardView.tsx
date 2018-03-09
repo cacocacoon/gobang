@@ -49,11 +49,10 @@ export default class BoardView extends React.Component<Props, State> {
 		const offsetX = e.nativeEvent.offsetX
 		const offsetY = e.nativeEvent.offsetY
 		const { x, y } = this.getCoordinate(offsetX, offsetY)
-
-		if (this.props.controller.canMovePiece(x, y)) {
+		
+		this.props.controller.movePiece(x, y, () => {
 			this.drawChessTo(x, y, this.props.controller.whosTurn())
-			this.props.controller.movePiece(x, y)
-		}
+		})
 	}
 
 	private drawChessTo(x: number, y: number, who: Chess) {
@@ -101,14 +100,11 @@ export default class BoardView extends React.Component<Props, State> {
 		return { x, y }
 	}
 
-	private repentance = async () => {
-		if (!this.props.controller.notYetMove()) {
-			await this.props.controller.repentance()
-			this.reDraw()
-		}
+	private repentance = () => {
+		this.props.controller.repentance(this.reDraw)
 	}
 
-	private reDraw() {
+	private reDraw = () => {
 		const ctx = this.boardRef.getContext('2d')
 		ctx.clearRect(0, 0, this.boardRef.width, this.boardRef.height)
 		ctx.beginPath()
