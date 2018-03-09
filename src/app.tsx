@@ -34,9 +34,8 @@ const App: React.SFC = () => (
 )
 
 function isCanvasSupported(): boolean {
-	// const canvas = document.createElement('canvas')
-	// return !!(canvas.getContext && canvas.getContext('2d'))
-	return true
+	const canvas = document.createElement('canvas')
+	return !!(canvas.getContext && canvas.getContext('2d'))
 }
 
 ReactDOM.render(<App />, document.getElementById('app'))
