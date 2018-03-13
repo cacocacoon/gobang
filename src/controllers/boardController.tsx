@@ -4,11 +4,7 @@ import Chess from '../models/chess'
 import Config from '../config'
 
 type Props = {
-	children: (
-		boardData: Chess[][],
-		gaming: boolean,
-		controller: BoardController
-	) => JSX.Element
+	children: (controller: BoardController) => React.ReactNode
 }
 type State = {
 	boardData: Chess[][]
@@ -23,6 +19,14 @@ export default class BoardController extends React.Component<Props, State> {
 		boardData: this.model.toJS(),
 		gaming: true,
 		turn: true
+	}
+
+	public get boardData() {
+		return this.state.boardData
+	}
+
+	public get gaming() {
+		return this.state.gaming
 	}
 
 	private canMovePiece = (x: number, y: number): boolean => {
@@ -44,11 +48,14 @@ export default class BoardController extends React.Component<Props, State> {
 	public repentance = (callback?: () => void) => {
 		if (!this.notYetMove()) {
 			this.model.repentance()
-			this.setState(state => ({
-				boardData: this.model.toJS(),
-				turn: !state.turn,
-				gaming: true
-			}), callback)
+			this.setState(
+				state => ({
+					boardData: this.model.toJS(),
+					turn: !state.turn,
+					gaming: true
+				}),
+				callback
+			)
 		}
 	}
 
@@ -127,10 +134,6 @@ export default class BoardController extends React.Component<Props, State> {
 	}
 
 	render() {
-		return this.props.children(
-			this.state.boardData,
-			this.state.gaming,
-			this
-		)
+		return this.props.children(this)
 	}
 }

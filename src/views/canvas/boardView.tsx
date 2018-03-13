@@ -9,8 +9,6 @@ const COORDINATE = Config.COORDINATE
 const BLOCK_LENGTH = Config.BLOCK_LENGTH
 const BOARD_LENGTH = COORDINATE.Y * BLOCK_LENGTH
 type Props = {
-	boardData: Chess[][]
-	gaming: boolean
 	controller: BoardController
 }
 type State = {}
@@ -109,7 +107,7 @@ export default class BoardView extends React.Component<Props, State> {
 		ctx.clearRect(0, 0, this.boardRef.width, this.boardRef.height)
 		ctx.beginPath()
 		this.drawBoard()
-		this.props.boardData.forEach((row, y) => {
+		this.props.controller.boardData.forEach((row, y) => {
 			row.forEach((chess, x) => {
 				this.drawChessTo(x, y, chess)
 			})
@@ -131,7 +129,7 @@ export default class BoardView extends React.Component<Props, State> {
 				height={BOARD_LENGTH + 2 * BLOCK_LENGTH}
 				width={BOARD_LENGTH + 2 * BLOCK_LENGTH}
 				ref={boardRef => (this.boardRef = boardRef)}
-				onClick={this.props.gaming ? this.movePiece : null}
+				onClick={this.props.controller.gaming ? this.movePiece : null}
 			/>
 		)
 	}

@@ -11,8 +11,6 @@ const BLOCK_LENGTH = Config.BLOCK_LENGTH
 const BOARD_WIDTH = COORDINATE.Y * BLOCK_LENGTH
 const BOARD_HEIGHT = COORDINATE.Y * BLOCK_LENGTH
 type Props = {
-	boardData: Chess[][]
-	gaming: boolean
 	controller: BoardController
 }
 type State = {}
@@ -59,7 +57,6 @@ export default class BoardView extends React.Component<Props, State> {
 	}
 
 	render() {
-		const { boardData } = this.props
 		return (
 			<div
 				className="board-view"
@@ -71,9 +68,9 @@ export default class BoardView extends React.Component<Props, State> {
 			>
 				<div
 					className="surface"
-					onClick={this.props.gaming ? this.movePiece : null}
+					onClick={this.props.controller.gaming ? this.movePiece : null}
 				>
-					{boardData.map((row, y) =>
+					{this.props.controller.boardData.map((row, y) =>
 						row.map((chess, x) => {
 							const { top, left } = this.getChessPosition(x, y)
 							switch (chess) {

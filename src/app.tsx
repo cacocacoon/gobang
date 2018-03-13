@@ -10,23 +10,18 @@ import CanvasBoardView from './views/canvas/boardView'
 import DOMBoardView from './views/dom/boardView'
 const App: React.SFC = () => (
 	<BoardController>
-		{(boardData, gaming, controller) => (
+		{controller => (
 			<>
 				<IsYourTurn who={controller.whosTurn()} />
-				<ShowWinner gaming={gaming} who={controller.whoWin()} />
+				<ShowWinner
+					gaming={controller.gaming}
+					who={controller.whoWin()}
+				/>
 				<RepentanceButton />
 				{isCanvasSupported() ? (
-					<CanvasBoardView
-						boardData={boardData}
-						gaming={gaming}
-						controller={controller}
-					/>
+					<CanvasBoardView controller={controller} />
 				) : (
-					<DOMBoardView
-						boardData={boardData}
-						gaming={gaming}
-						controller={controller}
-					/>
+					<DOMBoardView controller={controller} />
 				)}
 			</>
 		)}
