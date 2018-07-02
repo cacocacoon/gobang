@@ -1,4 +1,7 @@
 # Gobang
+
+https://cacocacoon.github.io/gobang/
+
 ## 使用技術
 1. Typescript
 2. SCSS
