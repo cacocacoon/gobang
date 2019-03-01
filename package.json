@@ -39,7 +39,6 @@
     "@types/react-dom": "^16.8.2",
     "immutable": "^3.8.2",
     "react": "^16.8.3",
-    "react-dom": "^16.8.3",
-    "wolfy87-eventemitter": "^5.2.6"
+    "react-dom": "^16.8.3"
   }
 }

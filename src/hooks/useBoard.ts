@@ -2,30 +2,36 @@ import { useState, useRef, useEffect } from 'react'
 import BoardModel from '../models/boardModel'
 import Chess from '../models/chess'
 import Config from '../config'
+import ChessInfo from '../models/chessInfo';
 
-export type BoardControllerProps = {
+export type BoardHook = {
 	whosTurn: () => Chess,
 	gaming: boolean,
 	whoWin: () => Chess,
 	movePiece: (x: number, y: number) => void,
 	repentance: () => void,
-	boardData: Chess[][]
+	chessInfos: ChessInfo[]
 }
 
-type Props = {
-	children: (props: BoardControllerProps) => JSX.Element,
-}
-
-export default function BoardController(props: React.PropsWithChildren<Props>) {
-	const model: BoardModel = useRef(new BoardModel()).current
+export default function useBoard(): BoardHook {
+	const model = useRef(BoardModel()).current
 	const [ state, setState ] = useState({
-		boardData: model.toJS(),
+		chessInfos: model.toJS(),
 		gaming: true,
 		turn: true
 	})
 
+	function findChessInfo(x: number, y: number) {
+		const chessInfo = state.chessInfos.find(chessInfo => chessInfo.x === x && chessInfo.y === y)
+		if (!chessInfo) {
+			return Object.create({ chess: Chess.None })
+		}
+
+		return chessInfo
+	}
+
 	function canMovePiece(x: number, y: number): boolean {
-		return state.boardData[y][x] === Chess.None
+		return findChessInfo(x, y).chess === Chess.None
 	}
 
 	function notYetMove(): boolean {
@@ -46,10 +52,6 @@ export default function BoardController(props: React.PropsWithChildren<Props>) {
 		}
 
 		model.repentance()
-		setState(state => ({
-			...state,
-			boardData: model.toJS()
-		}))
 	}
 
 	function movePiece(x: number, y: number) {
@@ -57,9 +59,8 @@ export default function BoardController(props: React.PropsWithChildren<Props>) {
 			return;
 		}
 
-		const chess: Chess = whosTurn()
+		const chess = whosTurn()
 		model.movePiece(x, y, chess)
-		setState(state => ({ ...state, boardData: model.toJS() }))
 	}
 
 	function checkWin(x: number, y: number, chess: Chess): boolean {
@@ -93,7 +94,6 @@ export default function BoardController(props: React.PropsWithChildren<Props>) {
 		chess: Chess,
 		position: { x: number; y: number }
 	): number {
-		const boardData = state.boardData
 		let score = 0
 		let moveAStep = { x: position.x, y: position.y }
 		while (true) {
@@ -105,7 +105,7 @@ export default function BoardController(props: React.PropsWithChildren<Props>) {
 			// 假如在牆外或是棋子不同
 			if (
 				outsideOfBoard(moveAStep) ||
-				boardData[moveAStep.y][moveAStep.x] !== chess
+				findChessInfo(moveAStep.x, moveAStep.y).chess !== chess
 			) {
 				break
 			}
@@ -132,9 +132,13 @@ export default function BoardController(props: React.PropsWithChildren<Props>) {
 		setState(state => ({ ...state, gaming: true, turn: !state.turn }))
 	}
 
-	// check win if boardData change
+	function setChessInfos() {
+		setState(state => ({ ...state, chessInfos: model.toJS() }))
+	}
+
+	// check win if chessInfos change
 	useEffect(() => {
-		const lastChessInfo = model.lastChessInfo
+		const lastChessInfo = model.lastChessInfo()
 		if (!lastChessInfo) {
 			return
 		}
@@ -145,14 +149,19 @@ export default function BoardController(props: React.PropsWithChildren<Props>) {
 		}
 
 		turn();
-	}, [state.boardData]);
+	}, [state.chessInfos]);
 
-	return props.children({
+	useEffect(() => {
+		model.subscribe(setChessInfos)
+		return () => model.unSubscribe(setChessInfos)
+	}, [])
+
+	return Object.freeze({
 		whosTurn,
 		gaming: state.gaming,
 		whoWin,
 		movePiece,
 		repentance,
-		boardData: state.boardData
+		chessInfos: state.chessInfos
 	})
 }

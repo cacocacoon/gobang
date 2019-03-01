@@ -1,11 +1,14 @@
 import React from 'react'
-import Emitter from '../utils/eventEmitter'
 
-export default function RepentanceButton() {
+type Props = {
+	repentance: () => void
+}
+
+export default function RepentanceButton(props: Props) {
 	return (
 		<button
 			style={{ display: 'block' }}
-			onClick={() => Emitter.trigger('repentance', [])}
+			onClick={props.repentance}
 		>
 			悔棋
 		</button>

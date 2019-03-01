@@ -1,15 +1,14 @@
 import React, { useRef, useEffect } from 'react'
 
-import Emitter from '../../utils/eventEmitter'
 import Config from '../../config'
 import Chess from '../../models/chess'
-import { BoardControllerProps } from '../../controllers/boardController'
+import { BoardHook } from '../../hooks/useBoard'
 
 const COORDINATE = Config.COORDINATE
 const BLOCK_LENGTH = Config.BLOCK_LENGTH
 const BOARD_LENGTH = COORDINATE.Y * BLOCK_LENGTH
 
-type Props = BoardControllerProps
+type Props = BoardHook
 
 export default function BoardView(props: Props) {
 	const boardRef: React.MutableRefObject<HTMLCanvasElement> = useRef();
@@ -91,33 +90,25 @@ export default function BoardView(props: Props) {
 		}
 	}
 
-	function repentance() {
-		props.repentance()
-	}
-
 	function reDraw() {
 		const ctx = boardRef.current.getContext('2d')
 		ctx.clearRect(0, 0, boardRef.current.width, boardRef.current.height)
 		ctx.beginPath()
 		drawBoard()
-		props.boardData.forEach((row, y) => {
-			row.forEach((chess, x) => {
-				drawChessTo(x, y, chess)
-			})
+		props.chessInfos.forEach(chessInfo => {
+			drawChessTo(chessInfo.x, chessInfo.y, chessInfo.chess)
 		})
 	}
 
 	// componentDidMount
 	useEffect(() => {
 		drawBoard()
-		Emitter.on('repentance', repentance)
-		return () => Emitter.off('repentance', repentance)
 	}, []);
 
-	// draw chess when board data change
+	// draw chess when chessInfos change
 	useEffect(() => {
 		reDraw()
-	}, [props.boardData])
+	}, [props.chessInfos])
 
 	return (
 		<canvas

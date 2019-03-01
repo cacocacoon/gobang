@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import BoardController, { BoardControllerProps } from './controllers/boardController'
+import useBoard from './hooks/useBoard'
 import IsYourTurn from './views/isYourTurn'
 import RepentanceButton from './views/repentanceButton'
 import ShowWinner from './views/showWinner'
@@ -10,24 +10,21 @@ import DOMBoardView from './views/dom/boardView'
 import isCanvasSupported from './utils/isCanvasSupported';
 
 function App() {
+	const board = useBoard();
 	return (
-		<BoardController>
-			{(props: BoardControllerProps) => (
-				<>
-					<IsYourTurn who={props.whosTurn()} />
-					<ShowWinner
-						gaming={props.gaming}
-						who={props.whoWin()}
-					/>
-					<RepentanceButton />
-					{isCanvasSupported ? (
-						<CanvasBoardView {...props} />
-					) : (
-						<DOMBoardView {...props} />
-					)}
-				</>
+		<>
+			<IsYourTurn who={board.whosTurn()} />
+			<ShowWinner
+				gaming={board.gaming}
+				who={board.whoWin()}
+			/>
+			<RepentanceButton repentance={board.repentance} />
+			{isCanvasSupported ? (
+				<CanvasBoardView {...board} />
+			) : (
+				<DOMBoardView {...board} />
 			)}
-		</BoardController>
+		</>
 	)
 }
 

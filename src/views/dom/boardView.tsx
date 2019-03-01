@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import Emitter from '../../utils/eventEmitter'
 import Config from '../../config'
 import Chess from '../../models/chess'
-import { BoardControllerProps } from '../../controllers/boardController'
+import { BoardHook } from '../../hooks/useBoard'
 import './boardView.scss'
 
 const COORDINATE = Config.COORDINATE
@@ -11,7 +10,7 @@ const BLOCK_LENGTH = Config.BLOCK_LENGTH
 const BOARD_WIDTH = COORDINATE.Y * BLOCK_LENGTH
 const BOARD_HEIGHT = COORDINATE.Y * BLOCK_LENGTH
 
-type Props = BoardControllerProps
+type Props = BoardHook
 
 export default function BoardView(props: Props) {
 	function getCoordinate(offsetX: number, offsetY: number) {
@@ -40,15 +39,6 @@ export default function BoardView(props: Props) {
 		}
 	}
 
-	function repentance() {
-		props.repentance()
-	}
-
-	useEffect(() => {
-		Emitter.on('repentance', repentance)
-		return () => Emitter.off('repentance', repentance)
-	}, [])
-
 	return (
 		<div
 			className="board-view"
@@ -58,23 +48,18 @@ export default function BoardView(props: Props) {
 				width: `${BOARD_WIDTH}px`
 			}}
 		>
-			<div
-				className="surface"
-				onClick={movePiece}
-			>
-				{props.boardData.map((row, y) =>
-					row.map((chess, x) => {
-						const { top, left } = getChessPosition(x, y)
-						switch (chess) {
-							case Chess.Black:
-								return <Black top={top} left={left} />
-							case Chess.White:
-								return <White top={top} left={left} />
-							default:
-								return null
-						}
-					})
-				)}
+			<div className="surface" onClick={movePiece}>
+				{props.chessInfos.map(chessInfo => {
+					const { top, left } = getChessPosition(chessInfo.x, chessInfo.y)
+					switch (chessInfo.chess) {
+						case Chess.Black:
+							return <Black top={top} left={left} />
+						case Chess.White:
+							return <White top={top} left={left} />
+						default:
+							return null
+					}
+				})}
 			</div>
 			<Grid />
 		</div>
