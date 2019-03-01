@@ -5,4 +5,8 @@ type Props = {
 	who: Chess
 }
 
-export default (props: Props) => <h3>Is Your Turn: {props.who}</h3>
+export default function IsYourTurn(props: Props) {
+	return (
+		<h3>Is Your Turn: {props.who}</h3>
+	)
+}

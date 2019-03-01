@@ -6,4 +6,8 @@ type Props = {
     gaming: boolean
 }
 
-export default (props: Props) => <h4>Winner: {!props.gaming ? props.who: Chess.None}</h4>
+export default function ShowWinner(props: Props) {
+    return (
+        <h4>Winner: {!props.gaming ? props.who: Chess.None}</h4>
+    )
+}
