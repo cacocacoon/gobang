@@ -22,24 +22,24 @@
   },
   "homepage": "https://github.com/cacocacoon/gobang#readme",
   "devDependencies": {
-    "css-loader": "^0.28.10",
-    "fork-ts-checker-webpack-plugin": "^0.4.0",
-    "node-sass": "^4.7.2",
+    "css-loader": "^0.28.11",
+    "fork-ts-checker-webpack-plugin": "^0.5.2",
+    "node-sass": "^4.11.0",
     "sass-loader": "^6.0.7",
-    "style-loader": "^0.20.2",
-    "ts-loader": "^4.0.1",
-    "typescript": "^2.7.2",
-    "webpack": "^4.1.0",
-    "webpack-cli": "^2.0.10",
-    "webpack-dev-server": "^3.1.0",
-    "webpack-merge": "^4.1.2"
+    "style-loader": "^0.20.3",
+    "ts-loader": "^4.5.0",
+    "typescript": "^2.9.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-merge": "^4.2.1"
   },
   "dependencies": {
-    "@types/react": "^16.0.40",
-    "@types/react-dom": "^16.0.4",
+    "@types/react": "^16.8.6",
+    "@types/react-dom": "^16.8.2",
     "immutable": "^3.8.2",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "wolfy87-eventemitter": "^5.2.4"
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "wolfy87-eventemitter": "^5.2.6"
   }
 }

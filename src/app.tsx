@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'core-js/fn/array/fill'
 
 import BoardController from './controllers/boardController'
 import IsYourTurn from './views/isYourTurn'
@@ -8,7 +7,7 @@ import RepentanceButton from './views/repentanceButton'
 import ShowWinner from './views/showWinner'
 import CanvasBoardView from './views/canvas/boardView'
 import DOMBoardView from './views/dom/boardView'
-const App: React.SFC = () => (
+const App: React.FunctionComponent = () => (
 	<BoardController>
 		{controller => (
 			<>
