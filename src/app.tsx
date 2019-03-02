@@ -10,20 +10,14 @@ import DOMBoardView from './views/dom/boardView'
 import isCanvasSupported from './utils/isCanvasSupported';
 
 function App() {
-	const board = useBoard();
+	const board = useBoard()
+	const BoardView = isCanvasSupported ? CanvasBoardView : DOMBoardView
 	return (
 		<>
 			<IsYourTurn who={board.whosTurn()} />
-			<ShowWinner
-				gaming={board.gaming}
-				who={board.whoWin()}
-			/>
+			<ShowWinner gaming={board.gaming} who={board.whoWin()} />
 			<RepentanceButton repentance={board.repentance} />
-			{isCanvasSupported ? (
-				<CanvasBoardView {...board} />
-			) : (
-				<DOMBoardView {...board} />
-			)}
+			<BoardView {...board} />
 		</>
 	)
 }

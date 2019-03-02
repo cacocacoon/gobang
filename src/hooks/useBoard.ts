@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import BoardModel from '../models/boardModel'
 import Chess from '../models/chess'
 import Config from '../config'
@@ -12,9 +12,8 @@ export type BoardHook = {
 	repentance: () => void,
 	chessInfos: ChessInfo[]
 }
-
+const model = BoardModel()
 export default function useBoard(): BoardHook {
-	const model = useRef(BoardModel()).current
 	const [ state, setState ] = useState({
 		chessInfos: model.toJS(),
 		gaming: true,
@@ -76,16 +75,10 @@ export default function useBoard(): BoardHook {
 			[[1, -1], [-1, 1]]
 		]
 		const position: { x: number; y: number } = { x, y }
-		let maxScore = 1
-		directions.forEach(d => {
-			const score =
-				1 +
-				getDirScore(d[0], chess, position) +
-				getDirScore(d[1], chess, position)
-			maxScore = Math.max(maxScore, score)
-		})
+		const maxScore = directions.reduce((maxScore, d) => (
+			Math.max(maxScore, 1 + getDirScore(d[0], chess, position) + getDirScore(d[1], chess, position))
+		), 1)
 		const win = maxScore >= 5
-
 		return win
 	}
 
@@ -109,6 +102,7 @@ export default function useBoard(): BoardHook {
 			) {
 				break
 			}
+
 			score++
 		}
 		return score
@@ -151,6 +145,7 @@ export default function useBoard(): BoardHook {
 		turn();
 	}, [state.chessInfos]);
 
+	// subscribe model of chessInfos
 	useEffect(() => {
 		model.subscribe(setChessInfos)
 		return () => model.unSubscribe(setChessInfos)
