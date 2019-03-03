@@ -7,19 +7,12 @@
         "experimentalDecorators": true,
         "strict": true,
         "strictNullChecks": false,
-        "module": "es2015",
-        "target": "es5",
+        "module": "esnext",
+        "target": "esnext",
         "jsx": "react",
         "pretty": true,
         "removeComments": true,
         "locale": "zh-TW",
-        "moduleResolution": "node",
-        "lib": [
-            "es2015",
-            "dom"
-        ]
-    },
-    "include": [
-        "./src/**/*"
-    ]
+        "moduleResolution": "node"
+    }
 }
