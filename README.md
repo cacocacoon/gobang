@@ -7,9 +7,9 @@ https://cacocacoon.github.io/gobang/
 2. SCSS
 3. Webpack
 4. React
-5. Immutable.js
+5. React Hooks API
+6. canvas
 
 ## 架構與設計模式
-1. MVC
-2. Render Children
-3. Emitter (Pub/Sub)
+1. MVVM
+2. EventTarget, Pub/Sub pattern
