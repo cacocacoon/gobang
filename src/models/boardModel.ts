@@ -1,28 +1,28 @@
-import { List } from 'immutable'
 import Chess from './chess'
 import ChessInfo from './chessInfo';
 
 export default function BoardModel() {
 	const eventTarget = new EventTarget()
-	let chessInfoHistory: List<ChessInfo> = List<ChessInfo>();
+	let chessInfoHistory: ChessInfo[] = [];
 
 	function movePiece(x: number, y: number, chess: Chess) {
 		const chessInfo: ChessInfo = { x, y, chess }
-		chessInfoHistory = chessInfoHistory.push(chessInfo)
+		chessInfoHistory = [...chessInfoHistory, chessInfo]
 		eventTarget.dispatchEvent(new Event('change'));
 	}
 
 	function notYetMove(): boolean {
-		return chessInfoHistory.count() === 0
+		return chessInfoHistory.length === 0
 	}
 
 	function repentance() {
-		chessInfoHistory = chessInfoHistory.pop()
+		chessInfoHistory.pop()
+		chessInfoHistory = [...chessInfoHistory]
 		eventTarget.dispatchEvent(new Event('change'));
 	}
 
 	function lastChessInfo(): ChessInfo {
-		return chessInfoHistory.last()
+		return chessInfoHistory[chessInfoHistory.length - 1]
 	}
 
 	function subscribe(callback: EventListener) {
@@ -33,8 +33,8 @@ export default function BoardModel() {
 		eventTarget.removeEventListener('change', callback)
 	}
 
-	function toJS(): ChessInfo[] {
-		return chessInfoHistory.toJS()
+	function getChessInfoHistory(): ChessInfo[] {
+		return [...chessInfoHistory]
 	}
 
 	return Object.freeze({
@@ -44,6 +44,6 @@ export default function BoardModel() {
 		lastChessInfo,
 		subscribe,
 		unSubscribe,
-		toJS
+		getChessInfoHistory
 	})
 }

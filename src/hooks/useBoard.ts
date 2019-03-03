@@ -15,7 +15,7 @@ export type BoardHook = {
 const model = BoardModel()
 export default function useBoard(): BoardHook {
 	const [ state, setState ] = useState({
-		chessInfos: model.toJS(),
+		chessInfos: model.getChessInfoHistory(),
 		gaming: true,
 		turn: true
 	})
@@ -127,7 +127,7 @@ export default function useBoard(): BoardHook {
 	}
 
 	function setChessInfos() {
-		setState(state => ({ ...state, chessInfos: model.toJS() }))
+		setState(state => ({ ...state, chessInfos: model.getChessInfoHistory() }))
 	}
 
 	// check win if chessInfos change

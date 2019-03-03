@@ -1,12 +1,12 @@
 {
   "name": "gobang",
   "version": "1.0.0",
-  "description": "1. Typescript 2. SCSS 3. Webpack 4. React",
+  "description": "1. Typescript 2. SCSS 3. Webpack 4. React 5. Canvas",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --mode development --config webpack.dev.js",
-    "build": "webpack -p --mode production --progress --colors --config webpack.prod.js"
+    "dev": "webpack-dev-server --config webpack.dev.js",
+    "build": "webpack --progress --colors --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,6 @@
   "homepage": "https://github.com/cacocacoon/gobang#readme",
   "devDependencies": {
     "css-loader": "^0.28.11",
-    "fork-ts-checker-webpack-plugin": "^0.5.2",
     "node-sass": "^4.11.0",
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
@@ -37,7 +36,6 @@
   "dependencies": {
     "@types/react": "^16.8.6",
     "@types/react-dom": "^16.8.2",
-    "immutable": "^3.8.2",
     "react": "^16.8.3",
     "react-dom": "^16.8.3"
   }
