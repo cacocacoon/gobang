@@ -2,7 +2,7 @@
 
 https://cacocacoon.github.io/gobang/
 
-## 使用技術
+## Technology
 1. Typescript
 2. SCSS
 3. Webpack
@@ -10,6 +10,6 @@ https://cacocacoon.github.io/gobang/
 5. React Hooks API
 6. canvas
 
-## 架構與設計模式
+## Architechure and Design Pattern
 1. MVVM
 2. EventTarget, Pub/Sub pattern
