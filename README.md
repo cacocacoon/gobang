@@ -1,4 +1,5 @@
 # Gobang
+Gobang is a web game which could be played by two people.<br />
 Live Demo
 https://cacocacoon.github.io/gobang/
 
@@ -10,6 +11,6 @@ https://cacocacoon.github.io/gobang/
 5. React Hooks API
 6. canvas
 
-## Architechure and Design Pattern
+## Architecture and Design Pattern
 1. MVVM
 2. EventTarget, Pub/Sub pattern
